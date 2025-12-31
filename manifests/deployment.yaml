@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: openfga
-        image: gcr.io/jwlee-argolis-202104/openfga-sample:v1
+        image: gcr.io/jwlee-argolis-202104/openfga-sample:v2
         ports:
         - name: http
           containerPort: 8080

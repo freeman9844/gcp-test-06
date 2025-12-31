@@ -65,7 +65,7 @@ localityName              = Locality Name (eg, city)
 0.organizationName        = Organization Name (eg, company)
 organizationalUnitName    = Organizational Unit Name (eg, section)
 commonName                = test01.com
-emailAddress              = jungwoonlee@google.com
+emailAddress              = jjj@email.com
 
 [sans_list]
 DNS.1                     = *.test01.com

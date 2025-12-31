@@ -1,0 +1,20 @@
+apiVersion: networking.gke.io/v1
+kind: HealthCheckPolicy
+metadata:
+  name: openfga-hc-policy
+  namespace: test01 # Service와 같은 네임스페이스
+spec:
+  default:
+    checkIntervalSec: 60
+    timeoutSec: 5 # BackendConfig의 timeoutSec과 유사하게 설정
+    healthyThreshold: 1
+    unhealthyThreshold: 2
+    config:
+      type: HTTP
+      httpHealthCheck:
+        port: 8080
+        requestPath: /healthz
+  targetRef:
+    group: ""
+    kind: Service
+    name: release-name-openfga

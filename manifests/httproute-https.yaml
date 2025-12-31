@@ -1,0 +1,18 @@
+# 기본 라우팅 룰 정의
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: openfga-https-route
+  namespace: test01
+spec:
+  parentRefs:
+  - name: openfga-gateway
+    sectionName: https
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: release-name-openfga
+      port: 8080

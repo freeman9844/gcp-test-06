@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-openfga
+  namespace: test01
+  labels:
+    app.kubernetes.io/name: openfga
+    app.kubernetes.io/instance: release-name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: openfga
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: openfga
+        app.kubernetes.io/instance: release-name
+    spec:
+      containers:
+      - name: openfga
+        image: gcr.io/jwlee-argolis-202104/openfga-sample:v1
+        ports:
+        - name: http
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080

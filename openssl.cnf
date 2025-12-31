@@ -1,0 +1,25 @@
+[req]
+default_bits              = 2048
+req_extensions            = extension_requirements
+distinguished_name        = dn_requirements
+prompt                    = no
+
+[extension_requirements]
+basicConstraints          = CA:FALSE
+keyUsage                  = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName            = @sans_list
+
+[dn_requirements]
+countryName               = KR
+stateOrProvinceName       = State or Province Name (full name)
+localityName              = Locality Name (eg, city)
+0.organizationName        = Organization Name (eg, company)
+organizationalUnitName    = Organizational Unit Name (eg, section)
+commonName                = test01.com
+emailAddress              = jungwoonlee@google.com
+
+[sans_list]
+DNS.1                     = *.test01.com
+DNS.2                     = test01.com
+DNS.3                     = test.test01.com
+

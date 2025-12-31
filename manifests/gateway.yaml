@@ -1,0 +1,29 @@
+# Gateway 정의
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: openfga-gateway
+  namespace: test01
+  annotations:
+    # Certificate Manager 인증서 정의
+    networking.gke.io/certmap: test01-com-map
+spec:
+  # LB 타입 정의
+  gatewayClassName: gke-l7-global-external-managed
+  listeners:
+  - name: https
+    protocol: HTTPS
+    port: 443
+    allowedRoutes:
+      namespaces:
+        from: Same
+  - name: http
+    protocol: HTTP
+    port: 80
+    allowedRoutes:
+      namespaces:
+        from: Same
+  # static ip 정의
+  addresses:
+  - type: NamedAddress
+    value: openfga-gke1-sad-01

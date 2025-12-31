@@ -1,0 +1,15 @@
+apiVersion: networking.gke.io/v1
+kind: GCPBackendPolicy
+metadata:
+  name: openfga-backend-policy
+  namespace: test01 # Service와 같은 네임스페이스
+spec:
+  default:
+    securityPolicy: armor-sad-gas # Cloud Armor 정책 이름
+    connectionDraining:
+      drainingTimeoutSec: 300
+    timeoutSec: 30
+  targetRef:
+    group: ""
+    kind: Service
+    name: release-name-openfga

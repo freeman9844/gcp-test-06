@@ -165,7 +165,10 @@ gcloud certificate-manager maps entries create test01-com-map-entry \
     *예상 출력: `301 Moved Permanently` (HTTPS로 리다이렉트).*
 
 3.  **HTTPS 액세스 테스트**:
+    `aaa.test01.com`은 실제 도메인이 아닐 수 있으므로, `--resolve` 옵션을 사용하여 Gateway IP로 직접 연결해야 합니다.
+
     ```bash
-    curl -v https://aaa.test01.com/
+    # aaa.test01.com:443을 Gateway IP(34.117.109.247)로 해석하도록 강제
+    curl -v -k --resolve aaa.test01.com:443:34.117.109.247 https://aaa.test01.com/
     ```
     *예상 출력: `200 OK` (본문: `Hello from OpenFGA Sample`).*

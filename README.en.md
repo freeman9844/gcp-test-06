@@ -165,7 +165,10 @@ To verify the deployment, you can use `curl` to test connectivity through the Ga
     *Expected output: `301 Moved Permanently` redirecting to HTTPS.*
 
 3.  **Test HTTPS Access**:
+    Since `aaa.test01.com` might not check to the Gateway IP in public DNS, use the `--resolve` flag.
+
     ```bash
-    curl -v https://aaa.test01.com/
+    # Force aaa.test01.com:443 to resolve to the Gateway IP (34.117.109.247)
+    curl -v -k --resolve aaa.test01.com:443:34.117.109.247 https://aaa.test01.com/
     ```
     *Expected output: `200 OK` with body `Hello from OpenFGA Sample`.*

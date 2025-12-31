@@ -35,6 +35,84 @@ Before deploying, ensure you have the following Google Cloud resources created:
     gcloud compute ssl-policies create ssl-policy-tls-1-2 --profile COMPATIBLE --min-tls-version 1.2 --global
     ```
 
+## Certificate Manager Setup (Reference)
+
+If you need to create a self-signed certificate and configuring Certificate Manager from scratch, follow these steps:
+
+### 1. Generate Self-Signed Certificate
+
+Create a configuration file `openssl.cnf`:
+
+```bash
+cat <<'EOF' >openssl.cnf
+[req]
+default_bits              = 2048
+req_extensions            = extension_requirements
+distinguished_name        = dn_requirements
+prompt                    = no
+
+[extension_requirements]
+basicConstraints          = CA:FALSE
+keyUsage                  = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName            = @sans_list
+
+[dn_requirements]
+countryName               = KR
+stateOrProvinceName       = State or Province Name (full name)
+localityName              = Locality Name (eg, city)
+0.organizationName        = Organization Name (eg, company)
+organizationalUnitName    = Organizational Unit Name (eg, section)
+commonName                = test01.com
+emailAddress              = jungwoonlee@google.com
+
+[sans_list]
+DNS.1                     = *.test01.com
+DNS.2                     = test01.com
+DNS.3                     = test.test01.com
+EOF
+```
+
+Generate the key and certificate:
+
+```bash
+# Generate private key
+openssl genrsa -out key.pem 2048
+
+# Generate CSR
+openssl req -new -key key.pem \
+    -out csr.pem \
+    -config openssl.cnf
+
+# Sign Certificate
+openssl x509 -req \
+    -signkey key.pem \
+    -in csr.pem \
+    -out cert.pem \
+    -extfile openssl.cnf \
+    -extensions extension_requirements \
+    -days 3650
+```
+
+### 2. Configure Google Cloud Certificate Manager
+
+Upload the certificate and create the map entry:
+
+```bash
+# Create Certificate resource
+gcloud certificate-manager certificates create test01-com-cert \
+    --certificate-file="cert.pem" \
+    --private-key-file="key.pem"
+
+# Create Certificate Map
+gcloud certificate-manager maps create test01-com-map
+
+# Create Map Entry
+gcloud certificate-manager maps entries create test01-com-map-entry \
+    --map=test01-com-map \
+    --hostname=*.test01.com \
+    --certificates=test01-com-cert
+```
+
 ## Project Structure
 
 ```

@@ -18,6 +18,8 @@
     -   `openfga-http-route`: HTTP (포트 80) 트래픽을 HTTPS로 리다이렉트.
     -   `openfga-https-route`: HTTPS (포트 443) 트래픽을 백엔드 서비스로 라우팅.
 
+![Architecture Diagram](images/architecture.png)
+
 ## 사전 요구 사항
 
 배포하기 전에 다음 Google Cloud 리소스가 생성되어 있는지 확인하세요:

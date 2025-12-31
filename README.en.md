@@ -18,6 +18,8 @@ The deployment consists of the following components:
     -   `openfga-http-route`: Redirects HTTP (port 80) traffic to HTTPS.
     -   `openfga-https-route`: Routes HTTPS (port 443) traffic to the backend service.
 
+![Architecture Diagram](images/architecture.png)
+
 ## Prerequisites
 
 Before deploying, ensure you have the following Google Cloud resources created:
